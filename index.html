@@ -6,7 +6,6 @@
     <meta http-equiv="refresh" content="120"> <!-- 120초마다 새로고침 -->
     <title>Figma Prototype</title>
     <style>
-        /* 브라우저 기본 스타일 초기화 */
         body {
             margin: 0;
             padding: 0;
@@ -24,19 +23,19 @@
             const iframe = document.getElementById('figma-frame');
             const baseSrc = iframe.getAttribute('data-src');
             const timestamp = new Date().getTime();
-            iframe.src = `${baseSrc}&cache_bust=${timestamp}`; // 캐시 방지 파라미터 추가
+            iframe.src = `${baseSrc}&cache_bust=${timestamp}`; // 캐시 방지 추가
         }
 
-        // 2분마다 실행
+        // 2분마다 새로고침
         setInterval(refreshIframe, 120 * 1000);
     </script>
 </head>
 <body>
-    <!-- Figma 프로토타입을 iframe으로 임베드 -->
     <iframe 
         id="figma-frame" 
-        data-src="https://www.figma.com/proto/RKfqSmRmfBbfJNqu8RjuxL/Creodent?content-scaling=fixed&kind=proto&node-id=1-2&page-id=0%3A1&scaling=min-zoom&starting-point-node-id=1%3A2"
-        src="https://www.figma.com/proto/RKfqSmRmfBbfJNqu8RjuxL/Creodent?content-scaling=fixed&kind=proto&node-id=1-2&page-id=0%3A1&scaling=min-zoom&starting-point-node-id=1%3A2">
+        data-src="https://embed.figma.com/proto/RKfqSmRmfBbfJNqu8RjuxL/Creodent?content-scaling=fixed&kind=proto&node-id=1-2&page-id=0%3A1&scaling=min-zoom&starting-point-node-id=1%3A2&embed-host=share"
+        src="https://embed.figma.com/proto/RKfqSmRmfBbfJNqu8RjuxL/Creodent?content-scaling=fixed&kind=proto&node-id=1-2&page-id=0%3A1&scaling=min-zoom&starting-point-node-id=1%3A2&embed-host=share">
     </iframe>
 </body>
 </html>
+
