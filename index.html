@@ -2,51 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Figma Prototype with Auto Refresh</title>
+    <meta http-equiv="refresh" content="120"> <!-- 120초마다 새로고침 -->
+    <title>Figma Prototype Auto Refresh</title>
     <style>
-        /* 페이지 전체를 iframe이 채우도록 설정 */
+        /* 브라우저 기본 마진 제거 */
         body {
             margin: 0;
-            overflow: hidden;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+            padding: 0;
         }
     </style>
+    <script>
+        // 캐시를 강제로 제거하는 코드
+        function clearCacheAndReload() {
+            const url = new URL(window.location.href);
+            const timestamp = new Date().getTime();
+            url.searchParams.set('cache_bust', timestamp); // 캐시 방지 파라미터 추가
+            window.location.href = url.href; // 새로고침
+        }
+        // 2분마다 캐시 클리어 후 리로드
+        setInterval(clearCacheAndReload, 120 * 1000);
+    </script>
 </head>
 <body>
-    <!-- Figma 임베드 링크 -->
-    <iframe id="figma-frame" 
-            src="https://embed.figma.com/proto/RKfqSmRmfBbfJNqu8RjuxL/Creodent?page-id=0%3A1&node-id=1-2&scaling=min-zoom&content-scaling=fixed&embed-host=share" 
-            allowfullscreen>
-    </iframe>
-
-    <script>
-        // 2분마다 iframe 새로고침 및 캐시 초기화
-        setInterval(() => {
-            const iframe = document.getElementById('figma-frame');
-            iframe.src = ''; // 기존 src 비우기
-            setTimeout(() => {
-                iframe.src = "https://embed.figma.com/proto/RKfqSmRmfBbfJNqu8RjuxL/Creodent?page-id=0%3A1&node-id=1-2&scaling=min-zoom&content-scaling=fixed&embed-host=share"; // src 재설정
-            }, 100); // 짧은 딜레이 후 재설정
-        }, 120000); // 2분(120,000ms)
-
-        // 화면 UI 요소 숨기기 (내장 UI)
-        document.addEventListener("DOMContentLoaded", () => {
-            const css = `
-                .figma-embed-toolbar { display: none !important; } /* Figma 내장 UI 숨기기 */
-            `;
-            const style = document.createElement("style");
-            style.type = "text/css";
-            style.appendChild(document.createTextNode(css));
-            document.head.appendChild(style);
-        });
-    </script>
+    <!-- Figma 프로토타입을 표시 -->
+    <div style="width: 100vw; height: 100vh;">
+        <object 
+            data="https://www.figma.com/proto/RKfqSmRmfBbfJNqu8RjuxL/Creodent?content-scaling=fixed&kind=proto&node-id=1-2&page-id=0%3A1&scaling=min-zoom&starting-point-node-id=1%3A2" 
+            type="text/html" 
+            style="width: 100%; height: 100%; border: none;">
+        </object>
+    </div>
 </body>
 </html>
+
