@@ -1,41 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="120"> <!-- 120초마다 새로고침 -->
-    <title>Figma Prototype</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        iframe {
-            width: 100vw;
-            height: 100vh;
-            border: none;
-        }
-    </style>
-    <script>
-        // 캐시 방지 새로고침
-        function refreshIframe() {
-            const iframe = document.getElementById('figma-frame');
-            const baseSrc = iframe.getAttribute('data-src');
-            const timestamp = new Date().getTime();
-            iframe.src = `${baseSrc}&cache_bust=${timestamp}`; // 캐시 방지 추가
-        }
-
-        // 2분마다 새로고침
-        setInterval(refreshIframe, 120 * 1000);
-    </script>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="7200"> <!-- 2시간마다 새로고침 -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Figma Prototype Auto Refresh</title>
+  <script>
+    // 캐시 자동 지우기 함수
+    window.addEventListener('load', function() {
+      if ('caches' in window) {
+        caches.keys().then(function(cacheNames) {
+          cacheNames.forEach(function(cacheName) {
+            caches.delete(cacheName); // 캐시 삭제
+          });
+        });
+      }
+    });
+  </script>
 </head>
 <body>
-    <iframe 
-        id="figma-frame" 
-        data-src="https://embed.figma.com/proto/RKfqSmRmfBbfJNqu8RjuxL/Creodent?content-scaling=fixed&kind=proto&node-id=1-2&page-id=0%3A1&scaling=min-zoom&starting-point-node-id=1%3A2&embed-host=share"
-        src="https://embed.figma.com/proto/RKfqSmRmfBbfJNqu8RjuxL/Creodent?content-scaling=fixed&kind=proto&node-id=1-2&page-id=0%3A1&scaling=min-zoom&starting-point-node-id=1%3A2&embed-host=share">
-    </iframe>
+  <iframe style="border: none; width: 100%; height: 100vh;" 
+    src="https://embed.figma.com/proto/Sb18hSqwSTSRzM3qZvVppD/Inosys?page-id=0%3A1&node-id=1-26&node-type=canvas&viewport=719%2C528%2C0.06&scaling=min-zoom&content-scaling=fixed&embed-host=share" 
+    allowfullscreen>
+  </iframe>
 </body>
 </html>
-
