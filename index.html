@@ -2,47 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Figma Prototype Auto Refresh</title>
+  <title>Figma Prototype</title> <!-- 기본 타이틀 -->
+  <meta name="title" content="Figma Prototype" /> <!-- 기본 타이틀 숨김용 메타태그 -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    iframe {
+      width: 100%;
+      height: 100vh;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <iframe id="figmaIframe" src="https://embed.figma.com/proto/Sb18hSqwSTSRzM3qZvVppD/Inosys?page-id=0%3A1&node-id=1-26&node-type=canvas&viewport=719%2C528%2C0.06&scaling=min-zoom&content-scaling=fixed&embed-host=share"></iframe>
+
   <script>
-    let idleTime = 0; // Idle time tracker
-    const idleLimit = 30; // Time in seconds (30 seconds)
+    const iframe = document.getElementById('figmaIframe');
+    const metaTitle = document.querySelector('meta[name="title"]');
 
-    // Reset idle timer
-    function resetIdleTimer() {
-      idleTime = 0;
-    }
-
-    // Check idle time and reload page if no activity
-    function checkIdleTime() {
-      idleTime++;
-      if (idleTime >= idleLimit) {
-        location.reload(); // Reload the entire page
-        idleTime = 0; // Reset the timer after reload
-      }
-    }
-
-    // Set up activity tracking on load
-    window.onload = () => {
-      document.addEventListener('mousemove', resetIdleTimer); // Mouse movement
-      document.addEventListener('keydown', resetIdleTimer);   // Keyboard input
-      document.addEventListener('click', resetIdleTimer);     // Click
-      document.addEventListener('touchstart', resetIdleTimer); // Mobile touch
+    // iframe 로드가 완료되면 타이틀을 숨긴 상태로 유지
+    iframe.onload = function() {
+      document.title = ''; // 타이틀을 빈 문자열로 설정하여 표시하지 않음
+      metaTitle.setAttribute('content', ''); // 메타 태그 내의 타이틀도 숨김
     };
 
-    // Check idle time every second
-    setInterval(checkIdleTime, 1000);
+    // 페이지 새로 고침 로직 (예시)
+    setInterval(function() {
+      location.reload();
+    }, 60000); // 60초마다 새로 고침
   </script>
-</head>
-<body style="margin: 0; padding: 0;">
-  <h1 style="text-align: center; margin-top: 20px;">Figma Prototype</h1>
-  <iframe 
-    style="border: none; width: 100%; height: 100vh;" 
-    src="https://embed.figma.com/proto/RKfqSmRmfBbfJNqu8RjuxL/Creodent?page-id=0%3A1&node-id=1-2&node-type=frame&viewport=346%2C314%2C0.19&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1%3A2&embed-host=share" 
-    allowfullscreen>
-  </iframe>
 </body>
 </html>
+
