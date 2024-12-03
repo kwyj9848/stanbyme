@@ -2,39 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Optimized Reset</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Figma Prototype Auto Refresh</title>
   <style>
     body, html {
       margin: 0;
       padding: 0;
-      overflow: hidden;
       height: 100%;
     }
     iframe {
       width: 100%;
-      height: 100%;
+      height: 100vh;
       border: none;
     }
   </style>
 </head>
 <body>
   <iframe 
-    id="iframe" 
-    src="https://embed.figma.com/proto/Sb18hSqwSTSRzM3qZvVppD/Inosys?page-id=0%3A1&node-id=1-26&node-type=canvas&viewport=719%2C528%2C0.06&scaling=min-zoom&content-scaling=fixed&embed-host=share">
+    id="iframe"
+    src="https://embed.figma.com/proto/RKfqSmRmfBbfJNqu8RjuxL/Creodent?page-id=0%3A1&node-id=1-2&node-type=frame&viewport=346%2C314%2C0.19&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1%3A2&embed-host=share" 
+    allowfullscreen>
   </iframe>
 
   <script>
     let idleTime = 0; // Idle time tracker
-    const idleLimit = 60; // Time in seconds (1 minute)
+    const idleLimit = 30; // Time in seconds (30 seconds of inactivity)
     const iframe = document.getElementById('iframe');
 
-    // Reset iframe without completely reloading
-    function resetIframeContent() {
-      console.log("Optimizing iframe reset...");
-      const iframeDocument = iframe.contentWindow.document;
-      iframeDocument.body.innerHTML = ""; // Clear iframe content
-      iframe.contentWindow.location.reload(true); // Force reload without clearing the outer page
+    // Function to reload iframe content
+    function resetIframe() {
+      console.log("Refreshing iframe...");
+      iframe.contentWindow.location.reload(true);
     }
 
     // Reset idle timer
@@ -42,30 +42,17 @@
       idleTime = 0;
     }
 
-    // Check idle time and reset iframe if no activity
+    // Check idle time every second
     function checkIdleTime() {
       idleTime++;
       if (idleTime >= idleLimit) {
-        resetIframeContent();
-        idleTime = 0; // Reset the timer after reload
+        resetIframe(); // Reload iframe after inactivity
+        idleTime = 0; // Reset timer after reload
       }
     }
 
-    // Enable fullscreen for the iframe
-    function enterFullscreen() {
-      const elem = document.documentElement;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) {
-        elem.webkitRequestFullscreen(); // Safari
-      } else if (elem.msRequestFullscreen) {
-        elem.msRequestFullscreen(); // IE/Edge
-      }
-    }
-
-    // Set up activity tracking and fullscreen on load
+    // Set up activity tracking
     window.onload = () => {
-      enterFullscreen();
       document.addEventListener('mousemove', resetIdleTimer); // Mouse movement
       document.addEventListener('keydown', resetIdleTimer);   // Keyboard input
       document.addEventListener('click', resetIdleTimer);     // Click
