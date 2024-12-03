@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Optimized Fullscreen Iframe</title>
+  <title>Optimized Reset</title>
   <style>
     body, html {
       margin: 0;
@@ -12,7 +12,6 @@
       height: 100%;
     }
     iframe {
-      display: block;
       width: 100%;
       height: 100%;
       border: none;
@@ -22,19 +21,20 @@
 <body>
   <iframe 
     id="iframe" 
-    src="https://embed.figma.com/proto/Sb18hSqwSTSRzM3qZvVppD/Inosys?page-id=0%3A1&node-id=1-26&node-type=canvas&viewport=719%2C528%2C0.06&scaling=min-zoom&content-scaling=fixed&embed-host=share&nocache=">
+    src="https://embed.figma.com/proto/Sb18hSqwSTSRzM3qZvVppD/Inosys?page-id=0%3A1&node-id=1-26&node-type=canvas&viewport=719%2C528%2C0.06&scaling=min-zoom&content-scaling=fixed&embed-host=share">
   </iframe>
 
   <script>
-    let idleTime = 0; // Tracks idle time
-    const idleLimit = 60; // Seconds before resetting
+    let idleTime = 0; // Idle time tracker
+    const idleLimit = 60; // Time in seconds (1 minute)
     const iframe = document.getElementById('iframe');
 
-    // Append a cache-busting query string to the iframe's source
-    function resetIframe() {
-      console.log("Resetting iframe to initial state...");
-      const baseUrl = "https://embed.figma.com/proto/Sb18hSqwSTSRzM3qZvVppD/Inosys?page-id=0%3A1&node-id=1-26&node-type=canvas&viewport=719%2C528%2C0.06&scaling=min-zoom&content-scaling=fixed&embed-host=share&nocache=";
-      iframe.src = baseUrl + Date.now(); // Append timestamp to avoid caching
+    // Reset iframe without completely reloading
+    function resetIframeContent() {
+      console.log("Optimizing iframe reset...");
+      const iframeDocument = iframe.contentWindow.document;
+      iframeDocument.body.innerHTML = ""; // Clear iframe content
+      iframe.contentWindow.location.reload(true); // Force reload without clearing the outer page
     }
 
     // Reset idle timer
@@ -42,28 +42,30 @@
       idleTime = 0;
     }
 
-    // Check idle time and reset iframe if limit reached
+    // Check idle time and reset iframe if no activity
     function checkIdleTime() {
       idleTime++;
       if (idleTime >= idleLimit) {
-        resetIframe();
+        resetIframeContent();
+        idleTime = 0; // Reset the timer after reload
       }
     }
 
-    // Open iframe in fullscreen mode
+    // Enable fullscreen for the iframe
     function enterFullscreen() {
-      if (iframe.requestFullscreen) {
-        iframe.requestFullscreen();
-      } else if (iframe.webkitRequestFullscreen) { // Safari
-        iframe.webkitRequestFullscreen();
-      } else if (iframe.msRequestFullscreen) { // IE/Edge
-        iframe.msRequestFullscreen();
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen(); // Safari
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen(); // IE/Edge
       }
     }
 
-    // Event listeners to reset idle timer on activity
+    // Set up activity tracking and fullscreen on load
     window.onload = () => {
-      enterFullscreen(); // Automatically enter fullscreen on load
+      enterFullscreen();
       document.addEventListener('mousemove', resetIdleTimer); // Mouse movement
       document.addEventListener('keydown', resetIdleTimer);   // Keyboard input
       document.addEventListener('click', resetIdleTimer);     // Click
