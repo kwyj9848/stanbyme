@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Auto Refresh with Idle Detection</title>
+  <title>Auto Refresh with Idle Detection and Fullscreen</title>
 </head>
 <body>
   <iframe 
+    id="iframe" 
     style="border: 1px solid rgba(0, 0, 0, 0.1);" 
     width="800" 
     height="450" 
@@ -35,10 +36,28 @@
       }
     }
 
-    // Event listeners for activity detection
+    // Fullscreen function
+    function toggleFullscreen() {
+      const iframe = document.getElementById("iframe");
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+      } else if (iframe.webkitRequestFullscreen) { // Safari
+        iframe.webkitRequestFullscreen();
+      } else if (iframe.msRequestFullscreen) { // IE/Edge
+        iframe.msRequestFullscreen();
+      }
+      console.log("Fullscreen toggled.");
+    }
+
+    // Event listeners for activity detection and fullscreen toggle
     window.onload = () => {
       document.addEventListener('mousemove', resetIdleTimer); // Mouse movement
-      document.addEventListener('keydown', resetIdleTimer);   // Key presses
+      document.addEventListener('keydown', (event) => {
+        resetIdleTimer();
+        if (event.key === "f" || event.key === "F") { // 'F' key toggles fullscreen
+          toggleFullscreen();
+        }
+      });
       document.addEventListener('touchstart', resetIdleTimer); // Mobile touch start
       document.addEventListener('touchmove', resetIdleTimer);  // Mobile touch move
     };
@@ -48,3 +67,4 @@
   </script>
 </body>
 </html>
+
